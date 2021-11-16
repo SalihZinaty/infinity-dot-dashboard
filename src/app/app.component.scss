@@ -1,6 +1,7 @@
 @import '~/../../assets/styles.scss';
 .header {
     border: 2px dashed blue;
+    text-align: center;
 }
 .data-form {
     border: 2px dashed red;
@@ -11,4 +12,5 @@
 .app-container {
     height: 100vh !important;
     overflow-y: hidden;
+    //background-color: $backgorund-color;
 }

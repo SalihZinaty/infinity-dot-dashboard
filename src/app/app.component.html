@@ -1,5 +1,31 @@
-<div fxLayout="column full-height" class="app-container">
-    <div fxFlex="20" class="header"></div> 
-    <div fxFlex="60" class="data-form"></div>
-    <div fxFlex="20" class="footer"></div>
+<div *ngIf="rewardsForm" fxLayout="column full-height" class="app-container">
+    <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center" class="header">
+        <p>infinityDOT Reflections Calculator</p>
+        <p>8% from every buy/sell redistributed to the holders!</p>
+    </div> 
+    <div fxLayout="column" fxFlex="60" class="data-form">
+        <form [formGroup]="rewardsForm">
+            <div fxLayout="column">
+                <mat-form-field appearance="legacy">
+                    <mat-label>Legacy form field</mat-label>
+                    <input autocomplete="off" matInput formControlName="volume" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="legacy">
+                    <mat-label>Legacy form field</mat-label>
+                    <input autocomplete="off" matInput formControlName="walletAddress" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="legacy">
+                    <mat-label>Legacy form field</mat-label>
+                    <input autocomplete="off" matInput formControlName="totalAddressBalance" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="legacy">
+                    <mat-label>Legacy form field</mat-label>
+                    <input autocomplete="off" matInput formControlName="lpBalance" matInput>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div fxFlex="20" fxLayout="column" class="footer" fxLayoutAlign="center center">
+        <p>infinityDOT rewards calculator contributed from Saleh Zinaty</p>
+    </div>
 </div>

@@ -16,7 +16,7 @@ export class BscscanService {
 
   private extractBscAddressBalance(html: string){
     let balance: any;
-    console.log(html);
+    //console.log(html);
     //@ts-ignore
     balance = (html.match(/[0-9,.?]+ IDOT/g))[0].split(',').join('').split(' IDOT')[0];
     return Number(balance)
