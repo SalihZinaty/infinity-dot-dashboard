@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import axios from 'axios';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -8,19 +9,16 @@ export class BscscanService {
 
   constructor(private http: HttpClient) { }
 
-  async getAddresses() {
-    const   burnWallet  = 'https://bscscan.com/token/0x73b96Ac0814EAfF828779De589840d1172aaAa70?a=0x000000000000000000000000000000000000dead';
-    const lpWallet = 'https://bscscan.com/token/0x73b96Ac0814EAfF828779De589840d1172aaAa70?a=0x2fb061745263c069a5cb933b3c873783adc66ef5';
-    let response;
-    await this.http.get(burnWallet).subscribe(res => response = res);
-    return response;
-    /* let text: string = 'xx'
-    await axios.get(burnWallet,{responseType: 'text'}).then(res => {
-        text = res.data;
-    });
-    let a = text.match(/[0-9,.?]+ IDOT/g);
-    console.log(a);
+  async getAddressBalance(address: string) {
+    return this.http.get(`https://api.allorigins.win/raw?url=${address}`,{responseType:'text'})
+    .pipe(map((html:any) => this.extractBscAddressBalance(html)));
+  }
+
+  private extractBscAddressBalance(html: string){
+    let balance: any;
+    console.log(html);
     //@ts-ignore
-    res.send({balance: a[0]}); */
+    balance = (html.match(/[0-9,.?]+ IDOT/g))[0].split(',').join('').split(' IDOT')[0];
+    return Number(balance)
   }
 }
