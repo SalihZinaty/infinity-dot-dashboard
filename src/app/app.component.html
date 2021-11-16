@@ -1,31 +1,65 @@
-<div *ngIf="rewardsForm" fxLayout="column full-height" class="app-container">
-    <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center" class="header">
-        <p>infinityDOT Reflections Calculator</p>
+<div *ngIf="rewardsForm" fxLayoutGap="10px" fxLayout="column full-height" class="app-container">
+    <div fxFlex="10" fxLayout="column" fxLayoutAlign="center center" class="header">
+        <h1><strong>infinityDOT Reflections Calculator</strong></h1>
         <p>8% from every buy/sell redistributed to the holders!</p>
     </div> 
-    <div fxLayout="column" fxFlex="60" class="data-form">
+    <mat-card fxLayout="column" fxFlex="40" class="data-form">
+        <h2><strong>Config Data</strong></h2>
         <form [formGroup]="rewardsForm">
-            <div fxLayout="column">
+            <div fxLayout="column" >
                 <mat-form-field appearance="legacy">
-                    <mat-label>Legacy form field</mat-label>
-                    <input autocomplete="off" matInput formControlName="volume" matInput>
+                    <div fxLayout="row">
+                        <span fxFlex="50"><strong>Volume</strong></span>
+                        <input [value]="dailyVolume" fxFlex="50" autocomplete="off" matInput formControlName="volume" matInput>
+                    </div>
                 </mat-form-field>
                 <mat-form-field appearance="legacy">
-                    <mat-label>Legacy form field</mat-label>
-                    <input autocomplete="off" matInput formControlName="walletAddress" matInput>
+                    <div fxLayout="row">
+                        <span fxFlex="50"><strong>Wallet Address</strong></span>
+                        <input [value]="" fxFlex="50" autocomplete="off" matInput formControlName="walletAddress" matInput>
+                    </div>
                 </mat-form-field>
                 <mat-form-field appearance="legacy">
-                    <mat-label>Legacy form field</mat-label>
-                    <input autocomplete="off" matInput formControlName="totalAddressBalance" matInput>
+                    <div fxLayout="row">
+                        <span fxFlex="50"><strong>Wallet Balance</strong></span>
+                        <input [value]="addressBalance" fxFlex="50" autocomplete="off" matInput formControlName="totalAddressBalance" matInput>
+                    </div>
                 </mat-form-field>
                 <mat-form-field appearance="legacy">
-                    <mat-label>Legacy form field</mat-label>
-                    <input autocomplete="off" matInput formControlName="lpBalance" matInput>
+                    <div fxLayout="row">
+                        <span fxFlex="50"><strong>Liquid Pool Balance</strong></span>
+                        <input [value]="lpWalletBalance" fxFlex="50" autocomplete="off" matInput formControlName="lpBalance" matInput>
+                    </div>
                 </mat-form-field>
             </div>
         </form>
-    </div>
-    <div fxFlex="20" fxLayout="column" class="footer" fxLayoutAlign="center center">
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex="40" class="data-form">
+        <h3><strong>Given Data & Reflection</strong></h3>
+            <div fxLayout="column" class="full-height" >
+                    <div fxLayout="row" fxFlex="20">
+                        <span fxFlex="50"><strong>Reflections</strong></span>
+                        <span fxFlex="50"><strong>8%</strong></span>
+                    </div>
+                    <div fxLayout="row" fxFlex="20">
+                        <span fxFlex="50"><strong>Circulation Supply</strong></span>
+                        <span fxFlex="50"><strong>{{circulationSupply}}</strong></span>
+                    </div>
+                    <div fxLayout="row" fxFlex="20">
+                        <span fxFlex="50"><strong>Daily Reflections</strong></span>
+                        <span fxFlex="50"><strong>{{dailyReflections}}</strong></span>
+                    </div>
+                    <div fxLayout="row" fxFlex="20">
+                        <span fxFlex="50"><strong>Monthly Reflections</strong></span>
+                        <span fxFlex="50"><strong>{{monthlyReflections}}</strong></span>
+                    </div>
+                    <div fxLayout="row" fxFlex="20">
+                        <span fxFlex="50"><strong>Yearly Reflections</strong></span>
+                        <span fxFlex="50"><strong>{{yearlyReflections}}</strong></span>
+                    </div>
+            </div>
+    </mat-card>
+    <mat-card fxFlex="5" fxLayout="column" class="footer" fxLayoutAlign="center center">
         <p>infinityDOT rewards calculator contributed from Saleh Zinaty</p>
-    </div>
+    </mat-card>
 </div>
