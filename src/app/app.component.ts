@@ -43,27 +43,27 @@ export class AppComponent implements OnInit, OnDestroy {
       totalAddressBalance: new FormControl('',[]),
       lpBalance: new FormControl('',[]),
     })
-    console.log(this.rewardsForm);
     this.rewardsForm.controls['walletAddress'].valueChanges.subscribe(async (address:any) => {
-      console.log(address);
       let addressUrl = BSC_IDOT_SEARCH_ADDRESS_URL + address;
       (await this.bscscanService.getAddressBalance(addressUrl)).subscribe(async (addressBalance) => {
+
         console.log(addressBalance);
         this.addressBalance = addressBalance;
         this.updateReflections();
       })
     })
     this.rewardsForm.controls['totalAddressBalance'].valueChanges.subscribe((data:any) => {
-      console.log(data);
+      this.addressBalance = Number(data);
+      this.updateReflections();
     })
   }
   updateReflections(){
             //@ts-ignore
-            this.dailyReflections = (this.addressBalance/this.circulationSupply)*(this.dailyVolume*(REFLECTION_PERCENT/100));
+            this.dailyReflections = ((this.addressBalance/this.circulationSupply)*(this.dailyVolume*(REFLECTION_PERCENT/100))).toFixed(3);
             //@ts-ignore
-            this.monthlyReflections = this.dailyReflections*30;
+            this.monthlyReflections = (this.dailyReflections*30).toFixed(3);
             //@ts-ignore
-            this.yearlyReflections = this.monthlyReflections*12;
+            this.yearlyReflections = new Intl.NumberFormat().format((this.monthlyReflections*12).toFixed(3));
   }
   ngOnDestroy(){
     
