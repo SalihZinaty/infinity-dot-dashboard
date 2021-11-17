@@ -21,6 +21,9 @@ export class AppComponent implements OnInit, OnDestroy {
   dailyReflections: Number = 0;
   monthlyReflections: Number = 0;
   yearlyReflections: Number = 0;
+  dailyReflectionsFormatted:any;
+  monthlyReflectionsFormatted:any;
+  yearlyReflectionsFormatted:any;
 
   constructor(private bscscanService: BscscanService){}
   async ngOnInit() {
@@ -75,7 +78,17 @@ export class AppComponent implements OnInit, OnDestroy {
             //@ts-ignore
             this.monthlyReflections = (this.dailyReflections*30).toFixed(3);
             //@ts-ignore
-            this.yearlyReflections = new Intl.NumberFormat().format((this.monthlyReflections*12).toFixed(3));
+            this.yearlyReflections = (this.monthlyReflections*12).toFixed(3);
+
+            //@ts-ignore
+            this.dailyReflectionsFormatted = new Intl.NumberFormat().format(this.dailyReflections)
+            
+            //@ts-ignore
+            this.monthlyReflectionsFormatted = new Intl.NumberFormat().format(this.monthlyReflections)
+
+            //@ts-ignore
+            this.yearlyReflectionsFormatted = new Intl.NumberFormat().format(this.yearlyReflections)
+            
   }
   ngOnDestroy(){
     
