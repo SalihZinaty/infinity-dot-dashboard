@@ -1,5 +1,6 @@
 $primary-color : #e825be;
-$backgorund-color: #2C0144; 
+$backgorund-color: #070722
+; 
 
 .full-height {
     height: 100% !important;
@@ -13,4 +14,8 @@ $backgorund-color: #2C0144;
 
 .scroll {
     overflow: auto;
+}
+
+.primary-text {
+    color: $primary-color;
 }

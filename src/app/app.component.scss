@@ -1,19 +1,34 @@
 @import '~/../../assets/styles.scss';
 .header {
     text-align: center;
-    margin-top: 2px;
+    margin-top: 3%;
 }
 .data-form {
     margin-left: 3%;
     margin-right: 3%;
+    background-color: $backgorund-color;
 }
 .footer {
+    background-color: $backgorund-color;
 }
 .app-container {
     height: 100vh !important;
    // position:fixed;
     overflow-y: hidden;
-    //background-color: $backgorund-color;
+    background-color: $backgorund-color;
     overflow: auto;
     min-height: 600px;
+    
+}
+p {
+    color: $primary-color
+}
+h2 {
+    color: $primary-color
+}
+span {
+    color: white
+}
+input {
+    color: white;
 }
