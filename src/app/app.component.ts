@@ -43,6 +43,12 @@ export class AppComponent implements OnInit, OnDestroy {
       totalAddressBalance: new FormControl('',[]),
       lpBalance: new FormControl('',[]),
     })
+
+    this.rewardsForm.controls['volume'].valueChanges.subscribe((volume:any) => {
+        this.dailyVolume = volume;
+        this.updateReflections();
+    })
+
     this.rewardsForm.controls['walletAddress'].valueChanges.subscribe(async (address:any) => {
       let addressUrl = BSC_IDOT_SEARCH_ADDRESS_URL + address;
       (await this.bscscanService.getAddressBalance(addressUrl)).subscribe(async (addressBalance) => {
@@ -54,6 +60,12 @@ export class AppComponent implements OnInit, OnDestroy {
     })
     this.rewardsForm.controls['totalAddressBalance'].valueChanges.subscribe((data:any) => {
       this.addressBalance = Number(data);
+      this.updateReflections();
+    })
+
+    this.rewardsForm.controls['lpBalance'].valueChanges.subscribe((lpBalance:any) => {
+      this.lpWalletBalance = Number(lpBalance);
+      this.circulationSupply = TOTAL_TOKENS - this.burnwalletBalance - this.lpWalletBalance;
       this.updateReflections();
     })
   }

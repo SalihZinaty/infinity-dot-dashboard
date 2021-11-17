@@ -10,7 +10,7 @@
                 <mat-form-field appearance="legacy">
                     <div fxLayout="row">
                         <span fxFlex="50"><strong>Volume</strong></span>
-                        <input [value]="dailyVolume" fxFlex="50" autocomplete="off" matInput formControlName="volume" matInput>
+                        <input type="number" [value]="dailyVolume" fxFlex="50" autocomplete="off" matInput formControlName="volume" matInput>
                     </div>
                 </mat-form-field>
                 <mat-form-field appearance="legacy">
@@ -22,13 +22,13 @@
                 <mat-form-field appearance="legacy">
                     <div fxLayout="row">
                         <span fxFlex="50"><strong>Wallet Balance</strong></span>
-                        <input [value]="addressBalance" fxFlex="50" autocomplete="off" matInput formControlName="totalAddressBalance" matInput>
+                        <input type="number" [value]="addressBalance" fxFlex="50" autocomplete="off" matInput formControlName="totalAddressBalance" matInput>
                     </div>
                 </mat-form-field>
                 <mat-form-field appearance="legacy">
                     <div fxLayout="row">
                         <span fxFlex="50"><strong>Liquid Pool Balance</strong></span>
-                        <input [value]="lpWalletBalance" fxFlex="50" autocomplete="off" matInput formControlName="lpBalance" matInput>
+                        <input type="number" [value]="lpWalletBalance" fxFlex="50" autocomplete="off" matInput formControlName="lpBalance" matInput>
                     </div>
                 </mat-form-field>
             </div>
