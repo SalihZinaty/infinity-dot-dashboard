@@ -4,13 +4,16 @@
     margin-top: 2px;
 }
 .data-form {
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 3%;
+    margin-right: 3%;
 }
 .footer {
 }
 .app-container {
     height: 100vh !important;
+   // position:fixed;
     overflow-y: hidden;
     //background-color: $backgorund-color;
+    overflow: auto;
+    min-height: 600px;
 }
