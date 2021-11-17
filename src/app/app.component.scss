@@ -1,7 +1,7 @@
 @import '~/../../assets/styles.scss';
 .header {
     text-align: center;
-    margin-top: 3%;
+    //margin-top: 10% !important;
 }
 .data-form {
     margin-left: 3%;
@@ -17,7 +17,7 @@
     overflow-y: hidden;
     background-color: $backgorund-color;
     overflow: auto;
-    min-height: 600px;
+    min-height: 900px;
     
 }
 p {

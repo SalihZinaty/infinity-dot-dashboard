@@ -1,9 +1,9 @@
-<div *ngIf="rewardsForm" fxLayoutGap="10px" fxLayout="column" class="app-container full-height scroll">
-    <div fxFlex="5" fxLayout="column" fxLayoutAlign="center center" class="header">
+<mat-card *ngIf="rewardsForm" fxLayout="column" class="app-container full-height scroll">
+    <div fxFlex="15" fxLayout="column" fxLayoutAlign="center center" class="header">
         <h1 class="primary-text"><strong>infinityDOT Reflections Calculator</strong></h1>
         <p class="primary-text">8% from every buy/sell redistributed to the holders!</p>
     </div> 
-    <mat-card fxLayout="column" fxFlex="45" class="data-form">
+    <mat-card fxLayout="column" fxFlex="40" class="data-form">
         <h2><strong>Config Data</strong></h2>
         <form [formGroup]="rewardsForm">
             <div fxLayout="column" >
@@ -60,6 +60,6 @@
             </div>
     </mat-card>
     <mat-card fxFlex="5" fxLayout="column" class="footer" fxLayoutAlign="center center">
-        <p>infinityDOT rewards calculator contributed with love to the amazing infinityDOT community from Saleh Zinaty</p>
+        <p style="text-align: center;">infinityDOT rewards calculator contributed with love to the amazing infinityDOT community from Saleh Zinaty</p>
     </mat-card>
-</div>
+</mat-card>
