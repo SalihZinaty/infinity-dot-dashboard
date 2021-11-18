@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "@coingecko/cg-api-ts": "0.0.51",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "axios": "^0.24.0",

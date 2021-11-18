@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.updateReflections();
       });
       });
-    (await this.bscscanService.getIdotDailyVolume()).subscribe(data => {this.dailyVolume=data;console.log(this.dailyVolume)});
+    this.bscscanService.getIdotDailyVolume().then(value => this.dailyVolume = Number(value.toFixed(3)))
     this.initiateRewardsForm();
     
   }
