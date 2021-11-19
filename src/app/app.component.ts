@@ -27,10 +27,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private bscscanService: BscscanService){}
   async ngOnInit() {
-    (await this.bscscanService.getAddressBalance(BURN_WALLET)).subscribe(async (dataBurn) => {
-      this.burnwalletBalance = dataBurn;
-      (await this.bscscanService.getAddressBalance(LP_WALLET)).subscribe(data =>{ 
-        this.lpWalletBalance = data;
+    (await this.bscscanService.getAddressBalance(BURN_WALLET)).subscribe(async (balance) => {
+      //@ts-ignore
+      this.burnwalletBalance = Number(balance).toFixed(3);
+      (await this.bscscanService.getAddressBalance(LP_WALLET)).subscribe(balance =>{ 
+        //@ts-ignore
+        this.lpWalletBalance = Number(balance).toFixed(3);;
         this.circulationSupply = TOTAL_TOKENS - this.burnwalletBalance - this.lpWalletBalance;
         this.updateReflections();
       });
@@ -54,10 +56,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.rewardsForm.controls['walletAddress'].valueChanges.subscribe(async (address:any) => {
       let addressUrl = BSC_IDOT_SEARCH_ADDRESS_URL + address;
-      (await this.bscscanService.getAddressBalance(addressUrl)).subscribe(async (addressBalance) => {
-
-        console.log(addressBalance);
-        this.addressBalance = addressBalance;
+      (await this.bscscanService.getAddressBalance(address)).subscribe(async (balance) => {
+        //@ts-ignore
+        //console.log(Number(response.result));
+        //@ts-ignore
+        this.addressBalance = Number(balance).toFixed(3);;
         this.updateReflections();
       })
     })
