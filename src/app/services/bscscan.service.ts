@@ -14,6 +14,20 @@ export class BscscanService {
     this.cg = new CoinGeckoAPI(window.fetch.bind(window))
    }
 
+   async getAllVolumes() {
+     return this.http.get('https://api.coingecko.com/api/v3/coins/infinitydot/market_chart?vs_currency=usd&days=max&interval=daily').pipe(map(data => {
+       //@ts-ignore
+      return data.total_volumes.map((volumes => volumes[1]))
+     }))
+   }
+   async getPolkaDotPrice(){
+     let price;
+    await this.cg.getSimplePrice(['polkadot'],['usd']).then(response => {
+      //@ts-ignore
+      price = response.data.polkadot.usd;
+    })
+    return price;
+   }
    async getAddressRewards(address: string) {
      return this.http.get(`${BSC_TRANSACTIONS_URL}=${address}&tag=latest&apikey=${BSC_API_KEY}`).pipe(map((data) => this.filterDataByRewards(data)))
    }

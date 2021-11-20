@@ -32,3 +32,13 @@ span {
 input {
     color: white;
 }
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
+    background-color: white !important;
+    border-radius: 4px;
+    color: black
+}
+input {
+    color: black;
+    text-align: center;
+}

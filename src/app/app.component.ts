@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BscscanService } from './services/bscscan.service';
-import { BSC_IDOT_SEARCH_ADDRESS_URL, BURN_WALLET, LP_WALLET, REFLECTION_PERCENT, TOTAL_TOKENS } from './utils/constants';
+import { BSC_IDOT_SEARCH_ADDRESS_URL, BURN_WALLET, INITIAL_VOLUME, LP_WALLET, REFLECTION_PERCENT, TOTAL_TOKENS } from './utils/constants';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 @Component({
   selector: 'app-root',
@@ -9,72 +9,43 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  burnwalletBalance: number = 0;
-  lpWalletBalance: number = 0;
-
   rewardsForm:any;
-
-  dailyVolume:Number = 0;
-  circulationSupply: Number = 0;
+  totalEarnedRewards = 0;
   addressBalance: Number = 0;
-
-  dailyReflections: Number = 0;
-  monthlyReflections: Number = 0;
-  yearlyReflections: Number = 0;
-  dailyReflectionsFormatted:any;
-  monthlyReflectionsFormatted:any;
-  yearlyReflectionsFormatted:any;
-
+  polkaDotPrice: Number = 0;
+  totalIdotVolume = 0;
+  totalDistributedRewards = 0;
+  totalDistributedRewardsDOT = 0;
+  totalEarnedRewardsInUSD = 0;
   constructor(private bscscanService: BscscanService){}
   async ngOnInit() {
-    await (await this.bscscanService.getAddressRewards('0xAD81C1c51f470FAD037850EfA27054381c4f79A3')).subscribe(async (res) => console.log(res,'rewards'));
-    (await this.bscscanService.getAddressBalance(BURN_WALLET)).subscribe(async (balance) => {
-      //@ts-ignore
-      this.burnwalletBalance = Number(balance).toFixed(3);
-      (await this.bscscanService.getAddressBalance(LP_WALLET)).subscribe(balance =>{ 
-        //@ts-ignore
-        this.lpWalletBalance = Number(balance).toFixed(3);;
-        this.circulationSupply = TOTAL_TOKENS - this.burnwalletBalance - this.lpWalletBalance;
-        this.updateReflections();
-      });
-      });
-    this.bscscanService.getIdotDailyVolume().then(value => this.dailyVolume = Number(value.toFixed(3)))
     this.initiateRewardsForm();
-    
+    let recent_volumes = 0;
+    (await this.bscscanService.getAllVolumes()).subscribe(async (volumes) => {
+      volumes.map((vol: number) => recent_volumes = recent_volumes + vol);
+      this.totalIdotVolume = INITIAL_VOLUME + recent_volumes;
+      this.totalDistributedRewards = Number((this.totalIdotVolume * 0.08).toFixed(3));
+      //@ts-ignore
+      this.polkaDotPrice = await (await this.bscscanService.getPolkaDotPrice());
+      //@ts-ignore
+      this.totalDistributedRewardsDOT = (this.totalDistributedRewards/this.polkaDotPrice).toFixed(4)
+    })
   }
   initiateRewardsForm() {
     this.rewardsForm = new FormGroup({
-      walletAddress: new FormControl('',[]),
-      volume: new FormControl('',[]),
-      totalAddressBalance: new FormControl('',[]),
-      lpBalance: new FormControl('',[]),
-    })
-
-    this.rewardsForm.controls['volume'].valueChanges.subscribe((volume:any) => {
-        this.dailyVolume = volume;
-        this.updateReflections();
+      walletAddress: new FormControl('',[])
     })
 
     this.rewardsForm.controls['walletAddress'].valueChanges.subscribe(async (address:any) => {
-      let addressUrl = BSC_IDOT_SEARCH_ADDRESS_URL + address;
-      (await this.bscscanService.getAddressBalance(address)).subscribe(async (balance) => {
+      await (await this.bscscanService.getAddressRewards(address)).subscribe(async (res) => {
+        this.totalEarnedRewards = res;
         //@ts-ignore
-        //console.log(Number(response.result));
-        //@ts-ignore
-        this.addressBalance = Number(balance).toFixed(3);;
-        this.updateReflections();
-      })
-    })
-    this.rewardsForm.controls['totalAddressBalance'].valueChanges.subscribe((data:any) => {
-      this.addressBalance = Number(data);
-      this.updateReflections();
+       this.polkaDotPrice = await (await this.bscscanService.getPolkaDotPrice());
+       //@ts-ignore
+       this.totalEarnedRewardsInUSD = this.totalEarnedRewards * this.polkaDotPrice;
+      });
     })
 
-    this.rewardsForm.controls['lpBalance'].valueChanges.subscribe((lpBalance:any) => {
-      this.lpWalletBalance = Number(lpBalance);
-      this.circulationSupply = TOTAL_TOKENS - this.burnwalletBalance - this.lpWalletBalance;
-      this.updateReflections();
-    })
   }
   updateReflections(){
             //@ts-ignore

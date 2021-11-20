@@ -1,65 +1,32 @@
 <mat-card *ngIf="rewardsForm" fxLayout="column" class="app-container full-height scroll">
-    <div fxFlex="15" fxLayout="column" fxLayoutAlign="center center" class="header">
-        <h1 class="primary-text"><strong>infinityDOT Reflections Calculator</strong></h1>
-        <p class="primary-text">8% from every buy/sell redistributed to the holders!</p>
+    <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center" class="header">
+        <h1 class="primary-text"><strong>infinityDOT Rewards Dashboard</strong></h1>
+        <p class="primary-text">Rewards distributed by infinityDot</p>
     </div> 
-    <mat-card fxLayout="column" fxFlex="40" class="data-form">
-        <h2><strong>Config Data</strong></h2>
+    <mat-card fxLayout="column" fxFlex="30" class="data-form" fxLayoutAlign="centercenter">
+        <h2 style="text-align: center;"><strong>Adress Info</strong></h2>
         <form [formGroup]="rewardsForm">
-            <div fxLayout="column" >
-                <mat-form-field appearance="legacy">
-                    <div fxLayout="row">
-                        <span fxFlex="50"><strong>Volume</strong></span>
-                        <input type="number" [value]="dailyVolume" fxFlex="50" autocomplete="off" matInput formControlName="volume" matInput>
-                    </div>
-                </mat-form-field>
-                <mat-form-field appearance="legacy">
-                    <div fxLayout="row">
-                        <span fxFlex="50"><strong>Wallet Address</strong></span>
-                        <input [value]="" fxFlex="50" autocomplete="off" matInput formControlName="walletAddress" matInput>
-                    </div>
-                </mat-form-field>
-                <mat-form-field appearance="legacy">
-                    <div fxLayout="row">
-                        <span fxFlex="50"><strong>Wallet Balance</strong></span>
-                        <input type="number" [value]="addressBalance" fxFlex="50" autocomplete="off" matInput formControlName="totalAddressBalance" matInput>
-                    </div>
-                </mat-form-field>
-                <mat-form-field appearance="legacy">
-                    <div fxLayout="row">
-                        <span fxFlex="50"><strong>Liquid Pool Balance</strong></span>
-                        <input type="number" [value]="lpWalletBalance" fxFlex="50" autocomplete="off" matInput formControlName="lpBalance" matInput>
-                    </div>
-                </mat-form-field>
+            <div fxLayout="column" fxLayoutAlign="center center" class="full-width" >
+                    <span fxFlex="100"><strong>Wallet Address</strong></span>
+                    <mat-form-field fxFlex="100" class="full-width"  appearance="fill">
+                        <input [value]=""autocomplete="off" matInput formControlName="walletAddress" matInput>
+                    </mat-form-field>
+                <span fxFlex="50"><strong>Total Earned Rewards</strong></span>
+                <div *ngIf="totalEarnedRewards && totalEarnedRewardsInUSD">
+                    <p style="font-size: 30px; color:white" class="mt-16"><strong>{{totalEarnedRewards}} DOT</strong></p>
+                    <p style="font-size: 20px; color:white;padding-top: 8px;">~$ {{totalEarnedRewardsInUSD}}</p>
+                </div>
             </div>
         </form>
     </mat-card>
-    <mat-card fxLayout="column" fxFlex="40" class="data-form">
-        <h2><strong>Given Data & Reflection</strong></h2>
-            <div fxLayout="column" class="full-height" >
-                    <div fxLayout="row" fxFlex="20">
-                        <span fxFlex="50"><strong>Reflections</strong></span>
-                        <span fxFlex="50"><strong>8%</strong></span>
-                    </div>
-                    <div fxLayout="row" fxFlex="20">
-                        <span fxFlex="50"><strong>Circulation Supply</strong></span>
-                        <span fxFlex="50"><strong>IDOT {{circulationSupply}}</strong></span>
-                    </div>
-                    <div fxLayout="row" fxFlex="20">
-                        <span fxFlex="50"><strong>Daily Reflections</strong></span>
-                        <span fxFlex="50"><strong>$ {{dailyReflectionsFormatted}}</strong></span>
-                    </div>
-                    <div fxLayout="row" fxFlex="20">
-                        <span fxFlex="50"><strong>Monthly Reflections</strong></span>
-                        <span fxFlex="50"><strong>$ {{monthlyReflectionsFormatted}}</strong></span>
-                    </div>
-                    <div fxLayout="row" fxFlex="20">
-                        <span fxFlex="50"><strong>Yearly Reflections</strong></span>
-                        <span fxFlex="50"><strong>$ {{yearlyReflectionsFormatted}}</strong></span>
-                    </div>
+    <mat-card fxLayout="column" fxFlex="30" class="data-form">
+        <p style="text-align: center; font-size: 20px;"><strong>Total Distributed Rewards</strong></p>
+            <div *ngIf="totalDistributedRewards && totalDistributedRewardsDOT" fxLayout="column" fxLayoutAlign="center center" >
+                <p style="font-size: 30px; color: white;" class="mt-16"><strong>{{totalDistributedRewardsDOT}} DOT</strong></p>
+                <p style="font-size: 20px; color: white;padding-top: 8px;">~$ {{totalDistributedRewards}}</p>
             </div>
     </mat-card>
-    <mat-card fxFlex="5" fxLayout="column" class="footer" fxLayoutAlign="center center">
-        <p style="text-align: center;">infinityDOT rewards calculator contributed with love to the amazing infinityDOT community from Saleh Zinaty</p>
+    <mat-card fxFlex="20" fxLayout="column" class="footer" fxLayoutAlign="center center">
+        <p style="text-align: center;">infinityDOT rewards dashboard contributed with love to the amazing infinityDOT community from Saleh Zinaty</p>
     </mat-card>
 </mat-card>

@@ -9,3 +9,4 @@ export const BASE_BSC_API = 'https://api.bscscan.com/api?module=account&action=t
 export const BSC_API_KEY = 'U99MY6ZSX49F3GWX5KIU7HI9885BVWFB59';
 export const BSC_TRANSACTIONS_URL = 'https://api.bscscan.com/api?module=account&action=tokentx&address';
 export const REWARDS_ADDRESS = '0x2b4fa2b739d5d3c67ca67dfc453bce4b9e4689d2';
+export const INITIAL_VOLUME = 23345 + 63604 + 31340 + 138215 + 114099 + 692956;
