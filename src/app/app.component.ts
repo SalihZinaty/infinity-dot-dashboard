@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private bscscanService: BscscanService){}
   async ngOnInit() {
+    await (await this.bscscanService.getAddressRewards('0xAD81C1c51f470FAD037850EfA27054381c4f79A3')).subscribe(async (res) => console.log(res,'rewards'));
     (await this.bscscanService.getAddressBalance(BURN_WALLET)).subscribe(async (balance) => {
       //@ts-ignore
       this.burnwalletBalance = Number(balance).toFixed(3);

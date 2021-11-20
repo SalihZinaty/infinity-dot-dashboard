@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { BASE_BSC_API, BSC_API_KEY, DAILY_VOLUME_CMC_URL, PROXY_SERVER_URL } from '../utils/constants';
+import { BASE_BSC_API, BSC_API_KEY, BSC_TRANSACTIONS_URL, REWARDS_ADDRESS } from '../utils/constants';
 import { CoinGeckoAPI } from "@coingecko/cg-api-ts";
 
 
@@ -14,6 +14,35 @@ export class BscscanService {
     this.cg = new CoinGeckoAPI(window.fetch.bind(window))
    }
 
+   async getAddressRewards(address: string) {
+     return this.http.get(`${BSC_TRANSACTIONS_URL}=${address}&tag=latest&apikey=${BSC_API_KEY}`).pipe(map((data) => this.filterDataByRewards(data)))
+   }
+  filterDataByRewards(data: any) {
+     let reflectionsTransactions = data.result.filter((transaction:any) => {
+       return transaction.from.toLowerCase() == REWARDS_ADDRESS.toLowerCase();
+     });
+     let dotRewards = reflectionsTransactions.map((transaction:any) => {
+       let dotReward = transaction.value;
+       let formattedDotReward
+       if(dotReward.length > 18) {
+         let dec = dotReward.slice(dotReward.length-18,dotReward.length)
+         let tens = dotReward.slice(0,dotReward.length-18);
+         formattedDotReward = Number(Number(tens + '.' + dec).toFixed(4));
+       } else {
+         let zeros = 18 - dotReward.length + 1;
+         let dotRewardArr = dotReward.split('');
+         for(let i=0;i<zeros;i++){
+           dotRewardArr.unshift('0');
+         }
+         dotRewardArr.splice(1,0,'.')
+         formattedDotReward = Number(Number(dotRewardArr.join('')).toFixed(4));
+       }
+       return formattedDotReward
+     })
+     let sumRewards = 0
+     dotRewards.map((reward:any) => sumRewards = sumRewards + reward)
+     return sumRewards;
+   }
   async getAddressBalance(address: string) {
     return this.http.get(`${BASE_BSC_API}=${address}&tag=latest&apikey=${BSC_API_KEY}`).pipe(map(res => {
       //@ts-ignore
