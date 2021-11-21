@@ -30,18 +30,18 @@ export class AppComponent implements OnInit, OnDestroy {
     (await this.bscscanService.getAllVolumes()).subscribe(async (volumes) => {
       volumes.map((vol: number) => recent_volumes = recent_volumes + vol);
       this.totalIdotVolume = INITIAL_VOLUME + recent_volumes;
-      this.totalDistributedRewards = Number((this.totalIdotVolume * 0.08).toFixed(3));
+      this.totalDistributedRewards = Number((this.totalIdotVolume * 0.08).toFixed(6));
       //@ts-ignore
       this.polkaDotPrice = await (await this.bscscanService.getPolkaDotPrice());
       //@ts-ignore
-      this.totalDistributedRewardsDOT = (this.totalDistributedRewards/this.polkaDotPrice).toFixed(4)
+      this.totalDistributedRewardsDOT = (this.totalDistributedRewards/this.polkaDotPrice).toFixed(6)
     });
     (await this.bscscanService.getAddressBalance(BURN_WALLET)).subscribe(async (balance) => {
       //@ts-ignore
-      this.burnwalletBalance = Number(balance).toFixed(3);
+      this.burnwalletBalance = Number(balance).toFixed(6);
       (await this.bscscanService.getAddressBalance(LP_WALLET)).subscribe(balance =>{ 
         //@ts-ignore
-        this.lpWalletBalance = Number(balance).toFixed(3);;
+        this.lpWalletBalance = Number(balance).toFixed(6);;
         this.circulationSupply = TOTAL_TOKENS - this.burnwalletBalance - this.lpWalletBalance;
       });
       });
@@ -54,11 +54,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.rewardsForm.controls['walletAddress'].valueChanges.subscribe(async (address:any) => {
       await (await this.bscscanService.getAddressRewards(address)).subscribe(async (res) => {
         //@ts-ignore
-        this.totalEarnedRewards = res.toFixed(3);
+        this.totalEarnedRewards = res.toFixed(6);
         //@ts-ignore
        this.polkaDotPrice = await (await this.bscscanService.getPolkaDotPrice());
        //@ts-ignore
-       this.totalEarnedRewardsInUSD = this.totalEarnedRewards * this.polkaDotPrice;
+       this.totalEarnedRewardsInUSD = (this.totalEarnedRewards * this.polkaDotPrice).toFixed(6);
       });
       (await this.bscscanService.getAddressBalance(REWARDS_ADDRESS,DOT_CONTRACT)).subscribe(async(data) => {
         let queuedRewards = data;
@@ -66,12 +66,12 @@ export class AppComponent implements OnInit, OnDestroy {
         (await this.bscscanService.getAddressBalance(address)).subscribe(async(data) => {
           addressBalance = data;
           //@ts-ignore
-         let effectivePercent = (addressBalance/this.circulationSupply).toFixed(3);
+         let effectivePercent = (addressBalance/this.circulationSupply).toFixed(6);
          //@ts-ignore
-         this.queuedRewards = (queuedRewards * Number(effectivePercent)).toFixed(3);
+         this.queuedRewards = (queuedRewards * Number(effectivePercent)).toFixed(6);
          let dotPrice = await (await this.bscscanService.getPolkaDotPrice());
          //@ts-ignore
-         this.queuedRewardsUSD = this.queuedRewards * dotPrice
+         this.queuedRewardsUSD = (this.queuedRewards * dotPrice).toFixed(6)
         })
       })
     })
@@ -79,11 +79,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   updateReflections(){
             //@ts-ignore
-            this.dailyReflections = ((this.addressBalance/this.circulationSupply)*(this.dailyVolume*(REFLECTION_PERCENT/100))).toFixed(3);
+            this.dailyReflections = ((this.addressBalance/this.circulationSupply)*(this.dailyVolume*(REFLECTION_PERCENT/100))).toFixed(6);
             //@ts-ignore
-            this.monthlyReflections = (this.dailyReflections*30).toFixed(3);
+            this.monthlyReflections = (this.dailyReflections*30).toFixed(6);
             //@ts-ignore
-            this.yearlyReflections = (this.monthlyReflections*12).toFixed(3);
+            this.yearlyReflections = (this.monthlyReflections*12).toFixed(6);
 
             //@ts-ignore
             this.dailyReflectionsFormatted = new Intl.NumberFormat().format(this.dailyReflections)
