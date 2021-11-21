@@ -36,9 +36,13 @@ input {
 ::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
     background-color: white !important;
     border-radius: 4px;
-    color: black
+    color: black;
 }
 input {
     color: black;
     text-align: center;
+    font-size: 12px;
+}
+::ng-deep .mat-form-field-underline {
+    display: none;
 }
