@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { BASE_BSC_API, BSC_API_KEY, BSC_TRANSACTIONS_URL, REWARDS_ADDRESS } from '../utils/constants';
+import { BASE_BSC_API, BSC_API_KEY, BSC_TRANSACTIONS_URL, DOT_CONTRACT, IDOT_CONTRACT, REWARDS_ADDRESS } from '../utils/constants';
 import { CoinGeckoAPI } from "@coingecko/cg-api-ts";
 
 
@@ -57,11 +57,19 @@ export class BscscanService {
      dotRewards.map((reward:any) => sumRewards = sumRewards + reward)
      return sumRewards;
    }
-  async getAddressBalance(address: string) {
-    return this.http.get(`${BASE_BSC_API}=${address}&tag=latest&apikey=${BSC_API_KEY}`).pipe(map(res => {
+  async getAddressBalance(address: string,contractAddress = IDOT_CONTRACT) {
+    return this.http.get(`${BASE_BSC_API}=${contractAddress}&address=${address}&tag=latest&apikey=${BSC_API_KEY}`).pipe(map(res => {
+      let formattedDotReward;
       //@ts-ignore
-      let formattedNumber = res.result.slice(0,res.result.length-9)  + '.' + res.result.slice(res.result.length-9,res.result.length);
-      return formattedNumber
+      let dotReward = res.result;
+      if(contractAddress == DOT_CONTRACT) {
+        let dec = dotReward.slice(dotReward.length-18,dotReward.length)
+        let tens = dotReward.slice(0,dotReward.length-18);
+        formattedDotReward = Number(Number(tens + '.' + dec).toFixed(4));
+      }
+      //@ts-ignore
+      else formattedDotReward = res.result.slice(0,res.result.length-9)  + '.' + res.result.slice(res.result.length-9,res.result.length);
+      return formattedDotReward
     }))
   }
   async getIdotDailyVolume(): Promise<Number> {

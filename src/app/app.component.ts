@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BscscanService } from './services/bscscan.service';
-import { BSC_IDOT_SEARCH_ADDRESS_URL, BURN_WALLET, INITIAL_VOLUME, LP_WALLET, REFLECTION_PERCENT, TOTAL_TOKENS } from './utils/constants';
+import { BSC_IDOT_SEARCH_ADDRESS_URL, BURN_WALLET, DOT_CONTRACT, INITIAL_VOLUME, LP_WALLET, REFLECTION_PERCENT, REWARDS_ADDRESS, TOTAL_TOKENS } from './utils/constants';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 @Component({
   selector: 'app-root',
@@ -17,6 +17,12 @@ export class AppComponent implements OnInit, OnDestroy {
   totalDistributedRewards = 0;
   totalDistributedRewardsDOT = 0;
   totalEarnedRewardsInUSD = 0;
+  queuedRewards = 0;
+  queuedRewardsUSD = 0;
+
+  burnwalletBalance: any;
+  lpWalletBalance:any;
+  circulationSupply:any;
   constructor(private bscscanService: BscscanService){}
   async ngOnInit() {
     this.initiateRewardsForm();
@@ -29,7 +35,16 @@ export class AppComponent implements OnInit, OnDestroy {
       this.polkaDotPrice = await (await this.bscscanService.getPolkaDotPrice());
       //@ts-ignore
       this.totalDistributedRewardsDOT = (this.totalDistributedRewards/this.polkaDotPrice).toFixed(4)
-    })
+    });
+    (await this.bscscanService.getAddressBalance(BURN_WALLET)).subscribe(async (balance) => {
+      //@ts-ignore
+      this.burnwalletBalance = Number(balance).toFixed(3);
+      (await this.bscscanService.getAddressBalance(LP_WALLET)).subscribe(balance =>{ 
+        //@ts-ignore
+        this.lpWalletBalance = Number(balance).toFixed(3);;
+        this.circulationSupply = TOTAL_TOKENS - this.burnwalletBalance - this.lpWalletBalance;
+      });
+      });
   }
   initiateRewardsForm() {
     this.rewardsForm = new FormGroup({
@@ -38,12 +53,27 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.rewardsForm.controls['walletAddress'].valueChanges.subscribe(async (address:any) => {
       await (await this.bscscanService.getAddressRewards(address)).subscribe(async (res) => {
-        this.totalEarnedRewards = res;
+        //@ts-ignore
+        this.totalEarnedRewards = res.toFixed(3);
         //@ts-ignore
        this.polkaDotPrice = await (await this.bscscanService.getPolkaDotPrice());
        //@ts-ignore
        this.totalEarnedRewardsInUSD = this.totalEarnedRewards * this.polkaDotPrice;
       });
+      (await this.bscscanService.getAddressBalance(REWARDS_ADDRESS,DOT_CONTRACT)).subscribe(async(data) => {
+        let queuedRewards = data;
+        let addressBalance;
+        (await this.bscscanService.getAddressBalance(address)).subscribe(async(data) => {
+          addressBalance = data;
+          //@ts-ignore
+         let effectivePercent = (addressBalance/this.circulationSupply).toFixed(3);
+         //@ts-ignore
+         this.queuedRewards = (queuedRewards * Number(effectivePercent)).toFixed(3);
+         let dotPrice = await (await this.bscscanService.getPolkaDotPrice());
+         //@ts-ignore
+         this.queuedRewardsUSD = this.queuedRewards * dotPrice
+        })
+      })
     })
 
   }
