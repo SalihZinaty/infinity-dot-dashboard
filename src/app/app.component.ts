@@ -23,6 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
   burnwalletBalance: any;
   lpWalletBalance:any;
   circulationSupply:any;
+
+  totalDistributedRewardsFormatted:any;
   constructor(private bscscanService: BscscanService){}
   async ngOnInit() {
     this.initiateRewardsForm();
@@ -31,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
       volumes.map((vol: number) => recent_volumes = recent_volumes + vol);
       this.totalIdotVolume = INITIAL_VOLUME + recent_volumes;
       this.totalDistributedRewards = Number((this.totalIdotVolume * 0.08).toFixed(6));
+      this.totalDistributedRewardsFormatted = new Intl.NumberFormat().format(this.totalDistributedRewards);
       //@ts-ignore
       this.polkaDotPrice = await (await this.bscscanService.getPolkaDotPrice());
       //@ts-ignore

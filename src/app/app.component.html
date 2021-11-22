@@ -28,8 +28,8 @@
     <mat-card fxLayout="column" fxFlex="20" class="data-form">
         <p style="text-align: center; font-size: 20px;"><strong>Total Distributed Rewards</strong></p>
             <div *ngIf="totalDistributedRewards && totalDistributedRewardsDOT" fxLayout="column" fxLayoutAlign="center center" >
-                <p style="font-size: 30px; color: white;" class="mt-16"><strong>{{totalDistributedRewardsDOT}} DOT</strong></p>
-                <p style="font-size: 20px; color: white;padding-top: 8px;">~$ {{totalDistributedRewards}}</p>
+                <p style="font-size: 30px; color: white;" class="mt-16"><strong>$ {{totalDistributedRewardsFormatted}} </strong></p>
+                <p style="font-size: 12px; color: white;padding-top: 8px; width: 300px;text-align: center;">The exact total distributed DOT amount depends on the dot price at the moment of transaction</p>
             </div>
     </mat-card>
     <mat-card fxFlex="20" fxLayout="column" class="footer" fxLayoutAlign="center center">
